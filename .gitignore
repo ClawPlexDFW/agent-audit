@@ -1,0 +1,19 @@
+# Editor / OS
+.DS_Store
+*.swp
+*.swo
+.idea/
+.vscode/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Local audit output (per-user)
+report/
+public-report/
+private-report/
+before-*.json
+after-*.json
+before-*.html
+after-*.html
+before-after-*.html

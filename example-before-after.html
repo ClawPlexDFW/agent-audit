@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Audit Before/After — Sample Hermes Install (anonymized)</title>
+<style>
+  :root {
+    --bg:#0f172a;--panel:#1e293b;--panel2:#334155;--fg:#e2e8f0;--muted:#94a3b8;
+    --border:#475569;--good:#4ade80;--bad:#f87171;
+  }
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--fg);margin:0;padding:2rem;line-height:1.5}
+  h1{margin:0 0 .5rem 0;font-size:1.75rem}
+  h2{margin:2rem 0 1rem;border-bottom:1px solid var(--border);padding-bottom:.5rem}
+  .meta{color:var(--muted);font-size:.9rem;margin-bottom:1rem}
+  .row{display:grid;grid-template-columns:1fr auto 1fr;gap:1rem;align-items:center;margin:1.5rem 0}
+  .panel{background:var(--panel);padding:1.25rem 1.5rem;border-radius:8px;border-left:4px solid var(--border)}
+  .panel.before{border-left-color:#f87171}
+  .panel.after{border-left-color:var(--good)}
+  .panel h3{margin:0 0 .5rem 0;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .panel .score{font-size:2.5rem;font-weight:800}
+  .arrow{font-size:1.5rem;text-align:center;color:var(--muted)}
+  .delta{display:inline-block;padding:.15rem .6rem;border-radius:4px;font-weight:700;color:#0f172a;background:#6b7280}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;margin:1.5rem 0}
+  .card{background:var(--panel);border-radius:8px;padding:1rem;text-align:center;border-left:4px solid var(--border)}
+  .card .num{font-size:1.75rem;font-weight:700}
+  .card .lbl{color:var(--muted);font-size:.75rem;text-transform:uppercase}
+  table{width:100%;border-collapse:collapse;background:var(--panel);border-radius:8px;overflow:hidden}
+  th,td{padding:.6rem 1rem;text-align:left;border-bottom:1px solid var(--border)}
+  th{background:var(--panel2);font-size:.75rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+  .sev{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.7rem;font-weight:700;color:#0f172a}
+  code{background:var(--panel2);padding:.1rem .35rem;border-radius:3px;font-size:.85em}
+  footer{margin-top:3rem;color:var(--muted);font-size:.8rem;text-align:center}
+</style>
+</head>
+<body>
+  <h1>Audit Before/After</h1>
+  <div class="meta">Target: <b>Sample Hermes Install (anonymized)</b> · Generated: 2026-06-12 19:11 UTC</div>
+
+  <h2>Health score</h2>
+  <div class="row">
+    <div class="panel before">
+      <h3>Before</h3>
+      <div class="score">83</div>
+      <div class="meta">9 findings</div>
+    </div>
+    <div class="arrow">
+      <div class="delta">0 pts</div>
+    </div>
+    <div class="panel after">
+      <h3>After</h3>
+      <div class="score">83</div>
+      <div class="meta">9 findings (1 resolved)</div>
+    </div>
+  </div>
+
+  <h2>Severity delta</h2>
+  <div class="summary">
+    <div class="card"><div class="num">1 → 1</div><div class="lbl">🔴 CRITICAL</div></div><div class="card"><div class="num">0 → 0</div><div class="lbl">🟠 HIGH</div></div><div class="card"><div class="num">3 → 3</div><div class="lbl">🟡 MEDIUM</div></div><div class="card"><div class="num">2 → 2</div><div class="lbl">🔵 LOW</div></div><div class="card"><div class="num">3 → 3</div><div class="lbl">⚪ INFO</div></div>
+  </div>
+
+  <h2>Remediation outcomes</h2>
+  <div class="summary">
+    <div class="card"><div class="num">1</div><div class="lbl">🟢 resolved</div></div>
+    <div class="card"><div class="num">8</div><div class="lbl">⏳ persisted (open)</div></div>
+    <div class="card"><div class="num">0</div><div class="lbl">🔴 introduced</div></div>
+  </div>
+
+  <h2>Per-finding detail</h2>
+  <table>
+    <thead><tr><th>ID</th><th>Severity</th><th>Title</th><th>Status</th></tr></thead>
+    <tbody>
+        <tr>
+          <td><code>SEC-001</code></td>
+          <td><span class="sev" style="background:#dc2626">🔴 CRITICAL</span></td>
+          <td>35 file(s) contain prompt-injection signatures</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>CFG-002</code></td>
+          <td><span class="sev" style="background:#ca8a04">🟡 MEDIUM</span></td>
+          <td>Empty fallback_providers list</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>CORE-002</code></td>
+          <td><span class="sev" style="background:#ca8a04">🟡 MEDIUM</span></td>
+          <td>God-file loop (5,368 lines, 231KB)</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>STATE-001</code></td>
+          <td><span class="sev" style="background:#ca8a04">🟡 MEDIUM</span></td>
+          <td>state.db is 339MB</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>CFG-001</code></td>
+          <td><span class="sev" style="background:#2563eb">🔵 LOW</span></td>
+          <td>Config missing expected sections: safety, telemetry</td>
+          <td>🟢 resolved</td>
+        </tr>
+        <tr>
+          <td><code>CORE-003</code></td>
+          <td><span class="sev" style="background:#2563eb">🔵 LOW</span></td>
+          <td>88 broad exception catches, 45 silent</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>SKILL-001</code></td>
+          <td><span class="sev" style="background:#6b7280">⚪ INFO</span></td>
+          <td>162 SKILL.md files in user skills tree</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>STATE-002</code></td>
+          <td><span class="sev" style="background:#6b7280">⚪ INFO</span></td>
+          <td>488 session transcript files</td>
+          <td>—</td>
+        </tr>
+        <tr>
+          <td><code>TOOL-001</code></td>
+          <td><span class="sev" style="background:#6b7280">⚪ INFO</span></td>
+          <td>85 tool files in registry</td>
+          <td>—</td>
+        </tr></tbody>
+  </table>
+
+  <footer>
+    Generated by build_before_after.py · Pair with <code>audit_framework.py</code>
+  </footer>
+</body>
+</html>

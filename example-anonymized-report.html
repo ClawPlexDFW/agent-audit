@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Agent Audit Report — .hermes</title>
+<style>
+  :root {
+    --bg: #0f172a; --panel: #1e293b; --panel2: #334155; --fg: #e2e8f0; --muted: #94a3b8;
+    --accent: #38bdf8; --good: #4ade80; --bad: #f87171; --border: #475569;
+  }
+  *{box-sizing:border-box}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--fg);margin:0;padding:2rem;line-height:1.5}
+  h1{margin:0 0 .5rem 0;font-size:1.75rem}
+  h2{margin:2rem 0 1rem;border-bottom:1px solid var(--border);padding-bottom:.5rem}
+  .meta{color:var(--muted);font-size:.9rem;margin-bottom:1rem}
+  .summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;margin:1.5rem 0}
+  .card{background:var(--panel);border-radius:8px;padding:1rem;text-align:center;border-left:4px solid var(--border)}
+  .card .num{font-size:2rem;font-weight:700}
+  .card .lbl{color:var(--muted);font-size:.85rem;text-transform:uppercase;letter-spacing:.05em}
+  .sev-CRITICAL{border-left-color:#dc2626}
+  .sev-HIGH{border-left-color:#ea580c}
+  .sev-MEDIUM{border-left-color:#ca8a04}
+  .sev-LOW{border-left-color:#2563eb}
+  .sev-INFO{border-left-color:#6b7280}
+  .health{display:flex;align-items:center;gap:1rem;background:var(--panel);padding:1rem 1.5rem;border-radius:8px;border-left:6px solid #16a34a}
+  .health .score{font-size:3rem;font-weight:800;color:#16a34a}
+  table{width:100%;border-collapse:collapse;background:var(--panel);border-radius:8px;overflow:hidden}
+  th,td{padding:.75rem 1rem;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
+  th{background:var(--panel2);text-transform:uppercase;font-size:.75rem;letter-spacing:.05em;color:var(--muted)}
+  tr.finding:hover{background:rgba(56,189,248,0.05)}
+  .sev{display:inline-block;padding:.15rem .5rem;border-radius:4px;font-size:.75rem;font-weight:700;color:#0f172a}
+  code{background:var(--panel2);padding:.1rem .35rem;border-radius:3px;font-size:.85em}
+  .title{font-weight:600;margin-bottom:.25rem}
+  .area{color:var(--muted);font-size:.8rem}
+  .summary{font-size:.92rem}
+  .loc{color:var(--muted);font-size:.8rem;font-family:ui-monospace,monospace;margin-top:.35rem}
+  .root,.fix{margin-top:.5rem;font-size:.9rem}
+  .ev{background:#020617;border:1px solid var(--border);padding:.5rem;border-radius:4px;overflow-x:auto;font-size:.8rem;margin-top:.5rem}
+  .meta{margin-top:.5rem;display:flex;gap:.35rem;flex-wrap:wrap}
+  .badge{font-size:.7rem;padding:.15rem .5rem;border-radius:99px;background:var(--panel2);color:var(--muted)}
+  .badge-eff{border:1px solid var(--border)}
+  .badge-imp{border:1px solid var(--border)}
+  .badge-open{background:#7f1d1d;color:#fecaca}
+  .badge-prog{background:#78350f;color:#fed7aa}
+  .badge-res{background:#14532d;color:#bbf7d0}
+  .badge-wont{background:#374151;color:#9ca3af}
+  .top5{background:var(--panel);padding:1rem 1.5rem;border-radius:8px}
+  .top5 ol{margin:.5rem 0;padding-left:1.5rem}
+  .top5 li{margin:.35rem 0}
+  footer{margin-top:3rem;color:var(--muted);font-size:.8rem;text-align:center}
+  .mode-tag{display:inline-block;background:var(--accent);color:#0f172a;padding:.15rem .5rem;border-radius:4px;font-size:.75rem;font-weight:700}
+</style>
+</head>
+<body>
+  <h1>Agent Audit Report</h1>
+  <div class="meta">
+    <span class="mode-tag">ANONYMIZED (public-safe)</span>
+    Target: <code>.hermes</code> · Generated: 2026-06-12 19:11 UTC
+  </div>
+
+  <h2>Overall Health</h2>
+  <div class="health">
+    <div class="score">94</div>
+    <div>
+      <div style="font-size:1.1rem;font-weight:600">System health score (out of 100)</div>
+      <div class="meta">Calculated from severity-weighted findings: 100 − 10·CRIT − 5·HIGH − 2·MED − 0.5·LOW (floored at 0)</div>
+    </div>
+  </div>
+
+  <h2>Findings by severity</h2>
+  <div class="summary"><div class="card sev-CRITICAL"><div class="num">1</div><div class="lbl">🔴 CRITICAL</div></div><div class="card sev-HIGH"><div class="num">0</div><div class="lbl">🟠 HIGH</div></div><div class="card sev-MEDIUM"><div class="num">3</div><div class="lbl">🟡 MEDIUM</div></div><div class="card sev-LOW"><div class="num">2</div><div class="lbl">🔵 LOW</div></div><div class="card sev-INFO"><div class="num">3</div><div class="lbl">⚪ INFO</div></div></div>
+
+  <h2>Top 5 most important recommendations</h2>
+  <div class="top5"><ol><li><b>35 file(s) contain prompt-injection signatures</b> — Quarantine each file. Treat the phrases as injection attempts unless the file is in a known-bucket (upstream bundled, research skill, test fixture, red-flag list, archive, snapshot).</li><li><b>Empty fallback_providers list</b> — Add at least one secondary provider with a different API key.</li><li><b>88 broad exception catches, 45 silent</b> — Adopt a central error_classifier (agent/error_classifier.py exists upstream) and tag exceptions with FailoverReason / category before catching.</li><li><b>God-file loop (5,368 lines, 231KB)</b> — Extract responsibilities into focused mixins/modules (init, runtime helpers, dispatch). Reference: AGENTS.md contribution rubric encourages this exact refactor.</li><li><b>state.db is 339MB</b> — Run `VACUUM` after backup. Consider archiving sessions older than N days.</li></ol></div>
+
+  <h2>All findings (9)</h2>
+  <table>
+    <thead><tr><th>Severity</th><th>ID</th><th>Title</th><th>Detail</th></tr></thead>
+    <tbody>
+            <tr class="finding" data-sev="CRITICAL">
+              <td><span class="sev" style="background:#dc2626">🔴 CRITICAL</span></td>
+              <td><code>SEC-001</code></td>
+              <td>
+                <div class="title">35 file(s) contain prompt-injection signatures</div>
+                <div class="area">config · security</div>
+              </td>
+              <td>
+                <div class="summary">Common jailbreak phrases found in 35 file(s) NOT classified as upstream/research/test/red-flag/archive. (Separately: 39 FPs in upstream-bundled files, research skills, tests, red-flag lists, snapshots — these are expected.)</div>
+                <div class='loc'>config.yaml (GOD MODE), state-snapshots/20260611-180743-pre-update/config.yaml (LOVE PLINY), sessions/session_20260524_013131_7caa37.json (LOVE PLINY), sessions/session_20260524_005559_567f1f.json (LOVE PLINY), sessions/request_dump_20260607_013128_2ca629_20260607_020354_465373.json (rebel genius)...</div>
+                
+                
+                <div class='fix'><b>Remediation:</b> Quarantine each file. Treat the phrases as injection attempts unless the file is in a known-bucket (upstream bundled, research skill, test fixture, red-flag list, archive, snapshot).</div>
+                <div class="meta">
+                  <span class="badge badge-eff">effort S</span>
+                  <span class="badge badge-imp">impact XL</span>
+                  applied
+                </div>
+              </td>
+            </tr>
+            <tr class="finding" data-sev="MEDIUM">
+              <td><span class="sev" style="background:#ca8a04">🟡 MEDIUM</span></td>
+              <td><code>CFG-002</code></td>
+              <td>
+                <div class="title">Empty fallback_providers list</div>
+                <div class="area">config · reliability</div>
+              </td>
+              <td>
+                <div class="summary">On primary provider failure, there is no fallback. Loop will hard-fail.</div>
+                <div class='loc'>config.yaml:fallback_providers</div>
+                
+                
+                <div class='fix'><b>Remediation:</b> Add at least one secondary provider with a different API key.</div>
+                <div class="meta">
+                  <span class="badge badge-eff">effort S</span>
+                  <span class="badge badge-imp">impact L</span>
+                  pending_approval
+                </div>
+              </td>
+            </tr>
+            <tr class="finding" data-sev="MEDIUM">
+              <td><span class="sev" style="background:#ca8a04">🟡 MEDIUM</span></td>
+              <td><code>CORE-002</code></td>
+              <td>
+                <div class="title">God-file loop (5,368 lines, 231KB)</div>
+                <div class="area">core · best-practice</div>
+              </td>
+              <td>
+                <div class="summary">hermes-agent/run_agent.py is 5,368 lines. Hot path bloat risk; mixin extraction is the standard remedy.</div>
+                <div class='loc'>run_agent.py:1-5368</div>
+                
+                
+                <div class='fix'><b>Remediation:</b> Extract responsibilities into focused mixins/modules (init, runtime helpers, dispatch). Reference: AGENTS.md contribution rubric encourages this exact refactor.</div>
+                <div class="meta">
+                  <span class="badge badge-eff">effort L</span>
+                  <span class="badge badge-imp">impact M</span>
+                  deferred
+                </div>
+              </td>
+            </tr>
+            <tr class="finding" data-sev="MEDIUM">
+              <td><span class="sev" style="background:#ca8a04">🟡 MEDIUM</span></td>
+              <td><code>STATE-001</code></td>
+              <td>
+                <div class="title">state.db is 339MB</div>
+                <div class="area">state · performance</div>
+              </td>
+              <td>
+                <div class="summary">Large state DB slows cold-start and increases backup size. WAL checkpointing is normal but consider pruning or archiving old sessions.</div>
+                <div class='loc'>state.db</div>
+                
+                
+                <div class='fix'><b>Remediation:</b> Run `VACUUM` after backup. Consider archiving sessions older than N days.</div>
+                <div class="meta">
+                  <span class="badge badge-eff">effort S</span>
+                  <span class="badge badge-imp">impact M</span>
+                  partially_resolved
+                </div>
+              </td>
+            </tr>
+            <tr class="finding" data-sev="LOW">
+              <td><span class="sev" style="background:#2563eb">🔵 LOW</span></td>
+              <td><code>CFG-001</code></td>
+              <td>
+                <div class="title">Config missing expected sections: safety, telemetry</div>
+                <div class="area">config · best-practice</div>
+              </td>
+              <td>
+                <div class="summary">No hard requirement, but these sections are conventional and where most knobs live.</div>
+                <div class='loc'>config.yaml</div>
+                
+                
+                <div class='fix'><b>Remediation:</b> Add the missing sections with sensible defaults; document each.</div>
+                <div class="meta">
+                  <span class="badge badge-eff">effort M</span>
+                  <span class="badge badge-imp">impact M</span>
+                  <span class="badge badge-res">resolved</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="finding" data-sev="LOW">
+              <td><span class="sev" style="background:#2563eb">🔵 LOW</span></td>
+              <td><code>CORE-003</code></td>
+              <td>
+                <div class="title">88 broad exception catches, 45 silent</div>
+                <div class="area">core · observability</div>
+              </td>
+              <td>
+                <div class="summary">Broad `except Exception:` count is high but not necessarily a bug. Silent-pass count is the better signal.</div>
+                <div class='loc'>run_agent.py</div>
+                
+                
+                <div class='fix'><b>Remediation:</b> Adopt a central error_classifier (agent/error_classifier.py exists upstream) and tag exceptions with FailoverReason / category before catching.</div>
+                <div class="meta">
+                  <span class="badge badge-eff">effort M</span>
+                  <span class="badge badge-imp">impact L</span>
+                  noted
+                </div>
+              </td>
+            </tr>
+            <tr class="finding" data-sev="INFO">
+              <td><span class="sev" style="background:#6b7280">⚪ INFO</span></td>
+              <td><code>SKILL-001</code></td>
+              <td>
+                <div class="title">162 SKILL.md files in user skills tree</div>
+                <div class="area">skills · ux</div>
+              </td>
+              <td>
+                <div class="summary">Skill count: 162. Each skill adds to model context only when invoked (good), but the SKILL.md discovery prompt *does* scan on cold-start.</div>
+                <div class='loc'>skills/**/SKILL.md</div>
+                
+                
+                
+                <div class="meta">
+                  <span class="badge badge-eff">effort M</span>
+                  <span class="badge badge-imp">impact M</span>
+                  <span class="badge badge-open">open</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="finding" data-sev="INFO">
+              <td><span class="sev" style="background:#6b7280">⚪ INFO</span></td>
+              <td><code>STATE-002</code></td>
+              <td>
+                <div class="title">488 session transcript files</div>
+                <div class="area">state · reliability</div>
+              </td>
+              <td>
+                <div class="summary">488 session files. Each contains full message history verbatim — useful for recall, hazardous if exfiltrated.</div>
+                <div class='loc'>sessions/*.json</div>
+                
+                
+                <div class='fix'><b>Remediation:</b> Set a retention policy. Redact secrets before storing (agent/redact.py upstream handles this).</div>
+                <div class="meta">
+                  <span class="badge badge-eff">effort M</span>
+                  <span class="badge badge-imp">impact M</span>
+                  <span class="badge badge-open">open</span>
+                </div>
+              </td>
+            </tr>
+            <tr class="finding" data-sev="INFO">
+              <td><span class="sev" style="background:#6b7280">⚪ INFO</span></td>
+              <td><code>TOOL-001</code></td>
+              <td>
+                <div class="title">85 tool files in registry</div>
+                <div class="area">tools · reliability</div>
+              </td>
+              <td>
+                <div class="summary">Tool surface inventory: 85 files. Per-turn cost is roughly proportional to total schema size.</div>
+                <div class='loc'>tools/*.py (85 files)</div>
+                
+                
+                <div class='fix'><b>Remediation:</b> Audit schemas with `hermes tools list --show-sizes` (if available). Trim descriptions; ensure handlers are service-gated (check_fn) where appropriate.</div>
+                <div class="meta">
+                  <span class="badge badge-eff">effort M</span>
+                  <span class="badge badge-imp">impact M</span>
+                  <span class="badge badge-open">open</span>
+                </div>
+              </td>
+            </tr></tbody>
+  </table>
+
+  <footer>
+    Generated by agent-audit · MIT License · Re-run anytime:<br>
+    <code>python3 audit_framework.py --self --output ./report</code>
+  </footer>
+</body>
+</html>

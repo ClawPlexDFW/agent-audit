@@ -1,0 +1,32 @@
+{
+  "_about": "Example fixes.json for use with audit_framework.py --fix-track. Replace IDs and statuses with your own findings. The keys are finding IDs (SEC-001, CFG-001, etc.); values are status objects.",
+  "fixes": [
+    {
+      "id": "CFG-002",
+      "status": "pending_approval",
+      "notes": "Need to pick a fallback provider. Default to local ollama if available."
+    },
+    {
+      "id": "CFG-001",
+      "status": "resolved",
+      "resolved_at": "2026-01-01T00:00:00Z",
+      "notes": "Added safety + telemetry sections to config.yaml."
+    },
+    {
+      "id": "STATE-001",
+      "status": "partially_resolved",
+      "resolved_at": "2026-01-01T00:00:00Z",
+      "notes": "Permissions hardened. VACUUM still pending."
+    },
+    {
+      "id": "CORE-002",
+      "status": "deferred",
+      "notes": "God-file refactor is upstream's job — flag for next release."
+    },
+    {
+      "id": "SEC-001",
+      "status": "applied",
+      "notes": "0 real injection landings after re-classifying upstream/test fixtures as known-good."
+    }
+  ]
+}
