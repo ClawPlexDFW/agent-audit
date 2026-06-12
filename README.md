@@ -250,6 +250,25 @@ Project Link:
 
 ---
 
+## Related tools
+
+These are independent projects that complement `agent-audit`. Each lives in
+its own repo and its own release cadence.
+
+* [`tylerdotai/agent-memory-auditor`](https://github.com/tylerdotai/agent-memory-auditor)
+  — Read-only static analyzer for persistent AI-agent context (Hermes,
+  OpenClaw, Claude Code, Codex, OpenCode). Catches stale task progress,
+  dangerous imperative memories, secret-shaped strings, duplicate entries,
+  and procedures that should be skills instead of memory. Use this for
+  *what's in your memory*; use `agent-audit` for *how your install is
+  structured*.
+* [`tylerdotai/agent-env-core`](https://github.com/tylerdotai/agent-env-core)
+  — Async browser, desktop, and terminal environment primitives for any
+  Python agent harness. Drop-in `Browser`, `Desktop`, and `Terminal`
+  tools with a single response schema, cross-platform shims, semantic
+  selectors, and a real safety net. Use this to *run* agent environments;
+  use `agent-audit` to *audit* them.
+
 ## Acknowledgments
 
 * [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
